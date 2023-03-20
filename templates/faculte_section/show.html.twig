@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail sections {% endblock %}
+{% block titrePage %}Gestion des sections {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>#</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Designation</th>
+                <td>{{ faculte_section.designation }}</td>
+            </tr>
+            <tr>
+                <th>Text</th>
+                <td>{{ faculte_section.text }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_faculte_section_index') }}">retour à la liste </a>
+
+    <a href="{{ path('app_faculte_section_edit', {'id': faculte_section.id}) }}">edit</a>
+
+    {{ include('faculte_section/_delete_form.html.twig') }}
+{% endblock %}

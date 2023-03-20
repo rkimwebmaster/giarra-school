@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Paiement{% endblock %}
+{% block titrePage %}Gestion des frais {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    {{ include('paiement/_form.html.twig') }}
+
+    <a href="{{ path('app_paiement_index') }}">retour à la liste </a>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de Notification{% endblock %}
+{% block titrePage %}Gestion des notifications {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>#</th>
+                <td>{{ loop.index }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ notification.date ? notification.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Sujet</th>
+                <td>{{ notification.sujet }}</td>
+            </tr>
+            <tr>
+                <th>Message</th>
+                <td>{{ notification.message }}</td>
+            </tr>
+            <tr>
+                <th>IsLu</th>
+                <td>{{ notification.isLu ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_notification_index') }}">retour à la liste </a>
+
+    <a href="{{ path('app_notification_edit', {'id': notification.id}) }}">edit</a>
+
+    {{ include('notification/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Reinscription{% endblock %}
+{% block titrePage %}Gestion des reinscriptions {% endblock %}
+{% block cardHeader %}Nouvelle reinscription {% endblock %}
+{% block body %}
+    {{ include('reinscription/_form.html.twig') }}
+
+    <a href="{{ path('app_reinscription_index') }}">retour à la liste </a>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reinscription{% endblock %}
+{% block titrePage %}Gestion des reinscriptions{% endblock %}
+{% block cardHeader %}Réçu reinscription {% endblock %}
+{% block body %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reinscription.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ reinscription.date ? reinscription.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reinscription_index') }}">retour à la liste </a>
+
+    <a href="{{ path('app_reinscription_edit', {'id': reinscription.id}) }}">edit</a>
+
+    {{ include('reinscription/_delete_form.html.twig') }}
+{% endblock %}

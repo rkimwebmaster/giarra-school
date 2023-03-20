@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entreprise{% endblock %}
+{% block titrePage %}Gestion Infos Ecole  {% endblock %}
+{% block cardHeader %} Création des Infos Ecole  {% endblock %}
+{% block body %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>{{ entreprise }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-default btn-primary" href="{{ path('app_entreprise_index') }}">retour à la liste </a>
+
+    <a class="btn btn-default btn-primary" href="{{ path('app_entreprise_edit', {'id': entreprise.id}) }}">edit</a>
+
+    {{ include('entreprise/_delete_form.html.twig') }}
+{% endblock %}

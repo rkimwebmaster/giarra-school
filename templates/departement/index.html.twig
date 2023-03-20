@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des options {% endblock %}
+{% block titrePage %}Gestion des options {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Designation</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>#</th>
+                <th>Designation</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </tfoot>
+        <tbody>
+        {% for departement in departements %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ departement.designation }}</td>
+                <td>{{ departement.description }}</td>
+                <td>
+                    <a href="{{ path('app_departement_show', {'id': departement.id}) }}">show</a>
+                    <a href="{{ path('app_departement_edit', {'id': departement.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_departement_new') }}">Create new</a>
+{% endblock %}

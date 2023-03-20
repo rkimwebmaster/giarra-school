@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit FraisAbstrait{% endblock %}
+
+{% block body %}
+    <h1>Edit FraisAbstrait</h1>
+
+    {{ include('frais_abstrait/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_frais_abstrait_index') }}">back to list</a>
+
+    {{ include('frais_abstrait/_delete_form.html.twig') }}
+{% endblock %}

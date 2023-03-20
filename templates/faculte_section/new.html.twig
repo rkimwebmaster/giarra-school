@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle  Section{% endblock %}
+{% block titrePage %}Gestion des Sections{% endblock %}
+{% block cardHeader %}Nouvelle section {% endblock %}
+
+{% block body %}
+    {{ include('faculte_section/_form.html.twig') }}
+
+    <a href="{{ path('app_faculte_section_index') }}">retour à la liste </a>
+{% endblock %}

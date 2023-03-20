@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Notification{% endblock %}
+{% block titrePage %}Gestion des notifications{% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    {{ include('notification/_form.html.twig') }}
+
+    <a href="{{ path('app_notification_index') }}">retour à la liste </a>
+{% endblock %}

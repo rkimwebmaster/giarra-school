@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier perceptions {% endblock %}
+{% block titrePage %}Gestion des frais {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    {{ include('paiement/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_paiement_index') }}">retour à la liste </a>
+
+    {{ include('paiement/_delete_form.html.twig') }}
+{% endblock %}

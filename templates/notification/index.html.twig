@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Notifications{% endblock %}
+{% block titrePage %}Gestion des notifications{% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Sujet</th>
+                <th>Message</th>
+                <th>IsLu</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for notification in notifications %}
+            <tr>
+                <td>{{ notification.id }}</td>
+                <td>{{ notification.date ? notification.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ notification.sujet }}</td>
+                <td>{{ notification.message }}</td>
+                <td>{{ notification.isLu ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_notification_show', {'id': notification.id}) }}">show</a>
+                    <a href="{{ path('app_notification_edit', {'id': notification.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_notification_new') }}">Create new</a>
+{% endblock %}

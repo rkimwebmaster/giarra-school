@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier  Inscription{% endblock %}
+{% block titrePage %}Gestion des inscriptions{% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    {{ include('inscription/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_inscription_index') }}">retour à la liste </a>
+
+    {{ include('inscription/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail Année Academique{% endblock %}
+{% block titrePage %}Gestion des configurations {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>#</th>
+                <td>{{ loop.index }}</td>
+            </tr>
+            <tr>
+                <th>Début</th>
+                <td>{{ annee_academique.debut }}</td>
+            </tr>
+            <tr>
+                <th>Fin</th>
+                <td>{{ annee_academique.fin }}</td>
+            </tr>
+            <tr>
+                <th>IsEnCours</th>
+                <td>{{ annee_academique.isEnCours ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsPasse</th>
+                <td>{{ annee_academique.isPasse ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_annee_academique_index') }}">retour à la liste </a>
+
+    <a href="{{ path('app_annee_academique_edit', {'id': annee_academique.id}) }}">edit</a>
+
+    {{ include('annee_academique/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,13 @@
+{{ form_start(form) }}
+<div class="row">
+<div class="col-6">
+    {{ form_row(form.designation) }}
+    </div>
+    <div class="col-6">
+    {{ form_row(form.text) }}
+    </div>
+        <div class="col-6">
+    <button class="btn btn-primary">{{ button_label|default('Enregsitrer') }}</button>
+</div>
+</div>
+{{ form_end(form) }}

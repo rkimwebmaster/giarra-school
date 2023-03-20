@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle option {% endblock %}
+{% block titrePage %}Gestion des options {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    {{ include('departement/_form.html.twig') }}
+
+    <a href="{{ path('app_departement_index') }}">retour à la liste </a>
+{% endblock %}

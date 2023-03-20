@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FraisAbstrait index{% endblock %}
+
+{% block body %}
+    <h1>FraisAbstrait index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Designation</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for frais_abstrait in frais_abstraits %}
+            <tr>
+                <td>{{ frais_abstrait.id }}</td>
+                <td>{{ frais_abstrait.designation }}</td>
+                <td>{{ frais_abstrait.description }}</td>
+                <td>
+                    <a href="{{ path('app_frais_abstrait_show', {'id': frais_abstrait.id}) }}">show</a>
+                    <a href="{{ path('app_frais_abstrait_edit', {'id': frais_abstrait.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_frais_abstrait_new') }}">Create new</a>
+{% endblock %}

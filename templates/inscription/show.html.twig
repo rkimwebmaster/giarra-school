@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail Inscription{% endblock %}
+{% block titrePage %}Gestion des Inscriptions {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ inscription.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ inscription.date ? inscription.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Observation</th>
+                <td>{{ inscription.observation }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_inscription_index') }}">retour à la liste </a>
+
+    <a href="{{ path('app_inscription_edit', {'id': inscription.id}) }}">edit</a>
+
+    {{ include('inscription/_delete_form.html.twig') }}
+{% endblock %}

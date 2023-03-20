@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mofifier  section{% endblock %}
+{% block titrePage %}Gestion des sections {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    {{ include('faculte_section/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_faculte_section_index') }}">retour à la liste </a>
+
+    {{ include('faculte_section/_delete_form.html.twig') }}
+{% endblock %}

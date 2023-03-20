@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Année Academique{% endblock %}
+{% block titrePage %}Gestion des configurations {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    {{ include('annee_academique/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_annee_academique_index') }}">retour à la liste </a>
+
+    {{ include('annee_academique/_delete_form.html.twig') }}
+{% endblock %}

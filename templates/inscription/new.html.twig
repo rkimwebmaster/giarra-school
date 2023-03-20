@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Inscription{% endblock %}
+{% block titrePage %}Gestion des inscriptions {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    {{ include('inscription/_form.html.twig') }}
+
+    <a href="{{ path('app_inscription_index') }}">retour à la liste </a>
+{% endblock %}

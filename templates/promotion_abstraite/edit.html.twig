@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier classe générique {% endblock %}
+{% block titrePage %}Gestion des classes  {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    {{ include('promotion_abstraite/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_promotion_abstraite_index') }}">back to list</a>
+
+    {{ include('promotion_abstraite/_delete_form.html.twig') }}
+{% endblock %}

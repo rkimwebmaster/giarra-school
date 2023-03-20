@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Entreprise{% endblock %}
+{% block titrePage %}Gestion des infos écoles {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    {{ include('entreprise/_form.html.twig') }}
+
+    <a href="{{ path('app_entreprise_index') }}">retour à la liste </a>
+{% endblock %}

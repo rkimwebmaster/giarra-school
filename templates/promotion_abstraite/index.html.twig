@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des classes générique{% endblock %}
+{% block titrePage %}Gestion des classes  {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Designation</th>
+                <th>Départements</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>#</th>
+                <th>Designation</th>
+                <th>Départements</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </tfoot>
+        <tbody>
+        {% for promotion_abstraite in promotion_abstraites %}
+            <tr>
+                <td>{{ loop.index}}</td>
+                <td>{{ promotion_abstraite.designation }}</td>
+                <td>{{ promotion_abstraite.departement }}</td>
+                <td>{{ promotion_abstraite.description }}</td>
+                <td>
+                <div class="btn-group">
+                    <a class="btn btn-sm btn-primary" href="{{ path('app_promotion_abstraite_show', {'id': promotion_abstraite.id}) }}">show</a>
+                    <a class="btn btn-sm btn-secondary" href="{{ path('app_promotion_abstraite_edit', {'id': promotion_abstraite.id}) }}">edit</a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_promotion_abstraite_new') }}">Create new</a>
+{% endblock %}

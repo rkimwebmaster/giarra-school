@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle classe générique {% endblock %}
+{% block titrePage %}Gestion des classes  {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    {{ include('promotion_abstraite/_form.html.twig') }}
+
+    <a href="{{ path('app_promotion_abstraite_index') }}">back to list</a>
+{% endblock %}

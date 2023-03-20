@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Moddifier  Notification{% endblock %}
+{% block titrePage %}Gestion des notifications{% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    {{ include('notification/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_notification_index') }}">retour à la liste </a>
+
+    {{ include('notification/_delete_form.html.twig') }}
+{% endblock %}

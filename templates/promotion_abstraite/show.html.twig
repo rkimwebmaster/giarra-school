@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}détail classe générique {% endblock %}
+{% block titrePage %}Gestion des classes  {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ promotion_abstraite.id }}</td>
+            </tr>
+            <tr>
+                <th>Designation</th>
+                <td>{{ promotion_abstraite.designation }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ promotion_abstraite.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_promotion_abstraite_index') }}">back to list</a>
+
+    <a href="{{ path('app_promotion_abstraite_edit', {'id': promotion_abstraite.id}) }}">edit</a>
+
+    {{ include('promotion_abstraite/_delete_form.html.twig') }}
+{% endblock %}
