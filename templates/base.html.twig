@@ -68,7 +68,7 @@
 
 				<!-- Heading -->
 				<div class="sidebar-heading">
-					Interface
+					Administration
 				</div>
 
 				<!-- Nav Item - Pages Collapse Menu -->
@@ -99,30 +99,6 @@
 					</div>
 				</li>
 
-				<!-- Nav Item - Utilities Collapse Menu -->
-				<li class="nav-item">
-					<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="false" aria-controls="collapseUtilities">
-						<i class="fas fa-fw fa-wrench"></i>
-						<span>Menus
-						</span>
-					</a>
-					<div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-						<div class="bg-white py-2 collapse-inner rounded">
-							<h6 class="collapse-header">Accedez à la liste :</h6>
-							<a class="collapse-item" href="{{url('app_entreprise_new')}}">Infos Ecole
-							</a>
-							<a class="collapse-item" href="{{url('app_faculte_section_index')}}">Sections
-							</a>
-							<a class="collapse-item" href="{{url('app_departement_index')}}">Options
-							</a>
-							{# <a class="collapse-item" href="{{url('app_promotion_abstraite_index')}}">Classe générale</a> #}
-							<a class="collapse-item" href="{{url('app_promotion_concrete_index')}}">Classe année scolaire
-							</a>
-							<a class="collapse-item" href="{{url('app_frais_index')}}">Frais
-							</a>
-						</div>
-					</div>
-				</li>
 
 				<!-- Divider -->
 				<hr
@@ -152,9 +128,33 @@
 						<span>Perceptions</span>
 					</a>
 				</li>
+				<!-- Nav Item - Utilities Collapse Menu -->
+				<li class="nav-item">
+					<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="false" aria-controls="collapseUtilities">
+						<i class="fas fa-fw fa-wrench"></i>
+						<span>Menus
+						</span>
+					</a>
+					<div id="collapseUtilities" class="collapse show" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+						<div class="bg-white py-2 collapse-inner rounded">
+							<h6 class="collapse-header">Accedez à la liste :</h6>
+							<a class="collapse-item" href="{{url('app_entreprise_new')}}">Infos Ecole
+							</a>
+							<a class="collapse-item" href="{{url('app_faculte_section_index')}}">Sections
+							</a>
+							<a class="collapse-item" href="{{url('app_departement_index')}}">Options
+							</a>
+							{# <a class="collapse-item" href="{{url('app_promotion_abstraite_index')}}">Classe générale</a> #}
+							<a class="collapse-item" href="{{url('app_promotion_concrete_index')}}">Classe année scolaire
+							</a>
+							<a class="collapse-item" href="{{url('app_frais_index')}}">Frais
+							</a>
+						</div>
+					</div>
+				</li>
+
 				<!-- Divider -->
-				<hr
-				class="sidebar-divider d-none d-md-block">
+				<hr	class="sidebar-divider d-none d-md-block">
 
 				<!-- Sidebar Toggler (Sidebar) -->
 				<div class="text-center d-none d-md-inline">
@@ -186,7 +186,7 @@
 						<!-- Topbar Search -->
 						<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
 							<div class="input-group">
-								<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+								<input type="text" class="form-control bg-light border-0 small" placeholder="Taper votre recherche..." aria-label="Search" aria-describedby="basic-addon2">
 								<div class="input-group-append">
 									<button class="btn btn-primary" type="button">
 										<i class="fas fa-search fa-sm"></i>
@@ -332,13 +332,14 @@
 
 							<!-- Nav Item - User Information -->
 							<li class="nav-item dropdown no-arrow">
+								{% if app.user %}
 								<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+									<span class="mr-2 d-none d-lg-inline text-gray-600 small">{{app.user.username}}</span>
 									<img class="img-profile rounded-circle" src="{{asset('img/undraw_profile.svg')}}">
 								</a>
 								<!-- Dropdown - User Information -->
 								<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-									<a class="dropdown-item" href="#">
+									<a class="dropdown-item" href="{{url('app_user_show', {id:app.user.id })}}">
 										<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
 										Profile
 									</a>
@@ -351,11 +352,13 @@
 										Activity Log
 									</a>
 									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-										<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+									<a class="dropdown-item" href="{{url('app_logout')}}" data-toggle="modal" data-target="#logoutModal">
+										<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-danger -400"></i>
 										Logout
 									</a>
 								</div>
+								{% endif %}
+
 							</li>
 
 						</ul>

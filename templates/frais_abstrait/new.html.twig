@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New FraisAbstrait{% endblock %}
-
+{% block title %}Nouveau Frais Abstrait{% endblock %}
+{% block titrePage %}Gestion de configuration  {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
 {% block body %}
-    <h1>Create new FraisAbstrait</h1>
-
     {{ include('frais_abstrait/_form.html.twig') }}
 
     <a href="{{ path('app_frais_abstrait_index') }}">back to list</a>

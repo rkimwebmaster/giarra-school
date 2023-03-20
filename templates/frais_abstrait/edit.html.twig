@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit FraisAbstrait{% endblock %}
-
+{% block title %}Modifier Frais Abstrait{% endblock %}
+{% block titrePage %}Gestion de configuration  {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
 {% block body %}
-    <h1>Edit FraisAbstrait</h1>
-
     {{ include('frais_abstrait/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_frais_abstrait_index') }}">back to list</a>

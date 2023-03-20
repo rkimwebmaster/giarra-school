@@ -33,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column]
-    private ?int $notificationNonLu = null;
+    private ?int $notificationNonLu = 0;
 
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Notification::class)]
     private Collection $notifications;
