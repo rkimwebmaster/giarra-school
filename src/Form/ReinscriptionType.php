@@ -16,7 +16,7 @@ class ReinscriptionType extends AbstractType
             ->add('promotionConcrete')
             // ->add('utilisateur')
             // ->add('etudiantAnneeAcademique')
-            // ->add('inscription')
+            ->add('paiement', PaiementType::class)
             ->add('anneeAcademique')
         ;
     }

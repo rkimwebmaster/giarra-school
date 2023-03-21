@@ -26,12 +26,6 @@ class Paiement
     #[ORM\JoinColumn(nullable: false)]
     private ?User $utilisateur = null;
 
-    #[ORM\ManyToOne(inversedBy: 'paiements')]
-    private ?Inscription $inscription = null;
-
-    #[ORM\ManyToOne(inversedBy: 'paiements')]
-    private ?Reinscription $reinscription = null;
-
     
     // #[ORM\PreUpdate]
     #[ORM\PrePersist]
@@ -80,27 +74,4 @@ class Paiement
         return $this;
     }
 
-    public function getInscription(): ?Inscription
-    {
-        return $this->inscription;
-    }
-
-    public function setInscription(?Inscription $inscription): self
-    {
-        $this->inscription = $inscription;
-
-        return $this;
-    }
-
-    public function getReinscription(): ?Reinscription
-    {
-        return $this->reinscription;
-    }
-
-    public function setReinscription(?Reinscription $reinscription): self
-    {
-        $this->reinscription = $reinscription;
-
-        return $this;
-    }
 }

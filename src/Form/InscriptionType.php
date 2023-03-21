@@ -17,6 +17,7 @@ class InscriptionType extends AbstractType
             ->add('date')
             ->add('etudiantAnneeAcademique', EtudiantAnneeAcademiqueType::class)
             ->add('observation', TextareaType::class)
+            ->add('paiement', PaiementType::class)
             ->add('promotionConcrete')
         ;
     }

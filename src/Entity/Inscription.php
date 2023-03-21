@@ -34,14 +34,16 @@ class Inscription
     #[ORM\OneToMany(mappedBy: 'inscription', targetEntity: Reinscription::class)]
     private Collection $reinscriptions;
 
-    #[ORM\OneToMany(mappedBy: 'inscription', targetEntity: Paiement::class)]
-    private Collection $paiements;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $matricule = null;
 
     #[ORM\OneToMany(mappedBy: 'inscription', targetEntity: EtudiantAnneeAcademique::class)]
     private Collection $etudiantAnneeAcademiques;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Paiement $paiement = null;
 
     
     #[ORM\PrePersist]
@@ -73,7 +75,6 @@ class Inscription
     public function __construct()
     {
         $this->reinscriptions = new ArrayCollection();
-        $this->paiements = new ArrayCollection();
         $this->date=new \DateTimeImmutable();
         $this->etudiantAnneeAcademiques = new ArrayCollection();
     }
@@ -161,36 +162,7 @@ class Inscription
         return $this;
     }
 
-    /**
-     * @return Collection<int, Paiement>
-     */
-    public function getPaiements(): Collection
-    {
-        return $this->paiements;
-    }
-
-    public function addPaiement(Paiement $paiement): self
-    {
-        if (!$this->paiements->contains($paiement)) {
-            $this->paiements->add($paiement);
-            $paiement->setInscription($this);
-        }
-
-        return $this;
-    }
-
-    public function removePaiement(Paiement $paiement): self
-    {
-        if ($this->paiements->removeElement($paiement)) {
-            // set the owning side to null (unless already changed)
-            if ($paiement->getInscription() === $this) {
-                $paiement->setInscription(null);
-            }
-        }
-
-        return $this;
-    }
-
+    
     public function getMatricule(): ?string
     {
         return $this->matricule;
@@ -229,6 +201,18 @@ class Inscription
                 $etudiantAnneeAcademique->setInscription(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPaiement(): ?Paiement
+    {
+        return $this->paiement;
+    }
+
+    public function setPaiement(Paiement $paiement): self
+    {
+        $this->paiement = $paiement;
 
         return $this;
     }

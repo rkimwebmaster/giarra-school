@@ -40,8 +40,10 @@ class Reinscription
     #[ORM\JoinColumn(nullable: false)]
     private ?AnneeAcademique $anneeAcademique = null;
 
-    #[ORM\OneToMany(mappedBy: 'reinscription', targetEntity: Paiement::class)]
-    private Collection $paiements;
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Paiement $paiement = null;
+
 
     #[ORM\PreUpdate]
     #[ORM\PrePersist]
@@ -54,7 +56,6 @@ class Reinscription
     public function __construct(Inscription $inscription)
     {
         $this->inscription=$inscription;
-        $this->paiements = new ArrayCollection();
         $etudiantAnneeAcademique= new EtudiantAnneeAcademique();
 
         $etudiantInscription=$inscription->getEtudiantAnneeAcademique();
@@ -64,8 +65,6 @@ class Reinscription
         $etudiantAnneeAcademique->setTelephoneTuteur($etudiantInscription->getTelephoneTuteur());
         
         $this->setEtudiantAnneeAcademique($etudiantAnneeAcademique);        
-        // $etudiant= clone $inscription->getEtudiantAnneeAcademique();
-        // dd($etudiant);
     }
 
     public function getId(): ?int
@@ -145,33 +144,17 @@ class Reinscription
         return $this;
     }
 
-    /**
-     * @return Collection<int, Paiement>
-     */
-    public function getPaiements(): Collection
+    public function getPaiement(): ?Paiement
     {
-        return $this->paiements;
+        return $this->paiement;
     }
 
-    public function addPaiement(Paiement $paiement): self
+    public function setPaiement(Paiement $paiement): self
     {
-        if (!$this->paiements->contains($paiement)) {
-            $this->paiements->add($paiement);
-            $paiement->setReinscription($this);
-        }
+        $this->paiement = $paiement;
 
         return $this;
     }
 
-    public function removePaiement(Paiement $paiement): self
-    {
-        if ($this->paiements->removeElement($paiement)) {
-            // set the owning side to null (unless already changed)
-            if ($paiement->getReinscription() === $this) {
-                $paiement->setReinscription(null);
-            }
-        }
-
-        return $this;
-    }
+    
 }
