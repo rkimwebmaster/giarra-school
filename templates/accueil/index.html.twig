@@ -1,3 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Giarra School!{% endblock %}
+{% block title %}La Rochelle - Giarra School!{% endblock %}
+{% block titrePage %}Gestion des frais scolaires - accueil {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block body %}
+	<div class="chart-pie pt-4">
+		<canvas id="myPieChart"></canvas>
+	</div>
+{% endblock %}
+{% block javascript %}
+			<!-- Page level custom scripts -->
+			<script src="{{asset('js/demo/chart-area-demo.js')}}"></script>
+			<script src="{{asset('js/demo/chart-pie-demo.js')}}"></script>
+			<script src="{{asset('js/demo/chart-bar-demo.js')}}"></script>
+		{% endblock %}

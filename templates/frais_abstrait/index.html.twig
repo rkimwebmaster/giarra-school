@@ -4,19 +4,27 @@
 {% block titrePage %}Gestion de configuration  {% endblock %}
 {% block cardHeader %} {{ block ('title')}} {% endblock %}
 {% block body %}
-    <table class="table">
+        <table class="table table-hover table-striped  table-bordered" id="dataTable" width="100%" cellspacing="0">        <thead>
         <thead>
             <tr>
-                <th>Id</th>
+                <th>#</th>
                 <th>Designation</th>
                 <th>Description</th>
                 <th>actions</th>
             </tr>
         </thead>
+        <tfoot>
+            <tr>
+                <th>#</th>
+                <th>Designation</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </tfoot>
         <tbody>
         {% for frais_abstrait in frais_abstraits %}
             <tr>
-                <td>{{ frais_abstrait.id }}</td>
+                <td>{{ loop.index }}</td>
                 <td>{{ frais_abstrait.designation }}</td>
                 <td>{{ frais_abstrait.description }}</td>
                 <td>

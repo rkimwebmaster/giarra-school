@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Frais{% endblock %}
+{% block title %}Création des Frais{% endblock %}
 
+{% block titrePage %}Gestion des frais {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
 {% block body %}
-    <h1>Create new Frais</h1>
-
     {{ include('frais/_form.html.twig') }}
 
     <a href="{{ path('app_frais_index') }}">retour à la liste </a>

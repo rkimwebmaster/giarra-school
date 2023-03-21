@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New AnneeAcademique{% endblock %}
-
+{% block title %}Nouvelle Année Academique{% endblock %}
+{% block titrePage %}Gestion des configurations  {% endblock %}
+{% block cardHeader %} {{ block ('title')}} {% endblock %}
 {% block body %}
-    <h1>Create new AnneeAcademique</h1>
-
     {{ include('annee_academique/_form.html.twig') }}
 
     <a href="{{ path('app_annee_academique_index') }}">retour à la liste </a>

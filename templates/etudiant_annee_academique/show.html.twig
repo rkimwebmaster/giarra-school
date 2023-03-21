@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EtudiantAnneeAcademique{% endblock %}
+
+{% block body %}
+    <h1>EtudiantAnneeAcademique</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ etudiant_annee_academique.id }}</td>
+            </tr>
+            <tr>
+                <th>Matricule</th>
+                <td>{{ etudiant_annee_academique.matricule }}</td>
+            </tr>
+            <tr>
+                <th>TelephoneTuteur</th>
+                <td>{{ etudiant_annee_academique.telephoneTuteur }}</td>
+            </tr>
+            <tr>
+                <th>HasReussie</th>
+                <td>{{ etudiant_annee_academique.hasReussie ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_etudiant_annee_academique_index') }}">back to list</a>
+
+    <a href="{{ path('app_etudiant_annee_academique_edit', {'id': etudiant_annee_academique.id}) }}">edit</a>
+
+    {{ include('etudiant_annee_academique/_delete_form.html.twig') }}
+{% endblock %}

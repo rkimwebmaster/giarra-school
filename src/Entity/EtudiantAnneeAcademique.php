@@ -39,10 +39,14 @@ class EtudiantAnneeAcademique
     #[ORM\JoinColumn(nullable: false)]
     private ?PromotionConcrete $promotionActuelle = null;
 
-    
+    //from reinscription ou initialisé de la premiere inscription 
+    #[ORM\ManyToOne(inversedBy: 'etudiantAnneeAcademiques')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Inscription $inscription = null;
+   
     #[ORM\PostLoad]
     public function creation(){
-        // $this->setMatricule($this->getMatricule().$this->);
+        $this->setMatricule($this->getInscription()->getMatricule().$this->getInscription()->getId());
     }
 
     public function __toString()
@@ -159,6 +163,18 @@ class EtudiantAnneeAcademique
     public function setPromotionActuelle(?PromotionConcrete $promotionActuelle): self
     {
         $this->promotionActuelle = $promotionActuelle;
+
+        return $this;
+    }
+
+    public function getInscription(): ?Inscription
+    {
+        return $this->inscription;
+    }
+
+    public function setInscription(?Inscription $inscription): self
+    {
+        $this->inscription = $inscription;
 
         return $this;
     }

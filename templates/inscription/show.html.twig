@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{inscription}}{% endblock %}
+{% block title %}Inscription - {{inscription}}{% endblock %}
 {% block titrePage %}Gestion des Inscriptions {% endblock %}
 {% block cardHeader %} {{ block ('title')}} {% endblock %}
 {% block body %}
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ inscription.id }}</td>
+                <th>Inscription</th>
+                <td>{{ inscription }}</td>
             </tr>
             <tr>
                 <th>Date</th>
-                <td>{{ inscription.date ? inscription.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ inscription.date ? inscription.date|format_dare('long') : '' }}</td>
             </tr>
             <tr>
                 <th>Observation</th>

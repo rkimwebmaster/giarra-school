@@ -10,7 +10,14 @@
 		<meta name="author" content="">
 
 		<title>
-			{% block title %}Giarra School
+			{% block title %}
+				{% if entreprise is defined %}
+					{% if entreprise.id is defined and entreprise.id is not null %}
+						{{entreprise}}
+					{% endif %}
+				{% else %}
+					Giarra School
+				{% endif %}
 			{% endblock %}
 		</title>
 
@@ -40,7 +47,7 @@
 				class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
 
 				<!-- Sidebar - Brand -->
-				<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+				<a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{url('app_accueil')}}">
 					<div class="sidebar-brand-icon rotate-n-15">
 						<i class="fas fa-laugh-wink"></i>
 					</div>
@@ -81,8 +88,14 @@
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
 							<h6 class="collapse-header">Initialisation des données:</h6>
-							<a class="collapse-item" href="{{url('app_entreprise_new')}}">Infos Ecole
-							</a>
+							<a class="collapse-item" href="{{url('app_annee_academique_new')}}">Année academique</a>
+							{% if entreprise is defined %}
+								{% if entreprise.id is defined and entreprise.id is not null %}
+									<a class="collapse-item" href="{{url('app_entreprise_show',{id: entreprise.id })}}">Infos Ecole</a>
+								{% endif %}
+							{% else %}
+								<a class="collapse-item" href="{{url('app_entreprise_new')}}">Infos Ecole</a>
+							{% endif %}
 							<a class="collapse-item" href="{{url('app_faculte_section_new')}}">Sections
 							</a>
 							<a class="collapse-item" href="{{url('app_departement_new')}}">Options
@@ -138,23 +151,21 @@
 					<div id="collapseUtilities" class="collapse show" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
 							<h6 class="collapse-header">Accedez à la liste :</h6>
-							<a class="collapse-item" href="{{url('app_entreprise_new')}}">Infos Ecole
-							</a>
-							<a class="collapse-item" href="{{url('app_faculte_section_index')}}">Sections
-							</a>
-							<a class="collapse-item" href="{{url('app_departement_index')}}">Options
-							</a>
+							<a class="collapse-item" href="{{url('app_etudiant_annee_academique_index')}}">Tous les étudiants</a>
+							<a class="collapse-item" href="{{url('app_frais_index')}}">Frais</a>
+							<a class="collapse-item" href="{{url('app_promotion_concrete_index')}}">Classe année scolaire</a>
+							<a class="collapse-item" href="{{url('app_departement_index')}}">Options</a>
+							<a class="collapse-item" href="{{url('app_faculte_section_index')}}">Sections</a>
+							<a class="collapse-item" href="{{url('app_entreprise_new')}}">Infos Ecole</a>
 							{# <a class="collapse-item" href="{{url('app_promotion_abstraite_index')}}">Classe générale</a> #}
-							<a class="collapse-item" href="{{url('app_promotion_concrete_index')}}">Classe année scolaire
-							</a>
-							<a class="collapse-item" href="{{url('app_frais_index')}}">Frais
-							</a>
+
 						</div>
 					</div>
 				</li>
 
 				<!-- Divider -->
-				<hr	class="sidebar-divider d-none d-md-block">
+				<hr
+				class="sidebar-divider d-none d-md-block">
 
 				<!-- Sidebar Toggler (Sidebar) -->
 				<div class="text-center d-none d-md-inline">
@@ -184,9 +195,9 @@
 						</form>
 
 						<!-- Topbar Search -->
-						<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+						<form method="GET" action="{{url('app_recherche_etudiant')}}" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
 							<div class="input-group">
-								<input type="text" class="form-control bg-light border-0 small" placeholder="Taper votre recherche..." aria-label="Search" aria-describedby="basic-addon2">
+								<input type="text" name="keyword" required class="form-control bg-light border-0 small" placeholder="Taper votre recherche..." aria-label="Search" aria-describedby="basic-addon2">
 								<div class="input-group-append">
 									<button class="btn btn-primary" type="button">
 										<i class="fas fa-search fa-sm"></i>
@@ -287,7 +298,7 @@
 										</div>
 										<div class="font-weight-bold">
 											<div class="text-truncate">Hi there! I am wondering if you can help me with a
-																																				                                            problem I've been having.</div>
+																																																																																																                                            problem I've been having.</div>
 											<div class="small text-gray-500">Emily Fowler · 58m</div>
 										</div>
 									</a>
@@ -298,7 +309,7 @@
 										</div>
 										<div>
 											<div class="text-truncate">I have the photos that you ordered last month, how
-																																				                                            would you like them sent to you?</div>
+																																																																																																                                            would you like them sent to you?</div>
 											<div class="small text-gray-500">Jae Chun · 1d</div>
 										</div>
 									</a>
@@ -309,7 +320,7 @@
 										</div>
 										<div>
 											<div class="text-truncate">Last month's report looks great, I am very happy with
-																																				                                            the progress so far, keep up the good work!</div>
+																																																																																																                                            the progress so far, keep up the good work!</div>
 											<div class="small text-gray-500">Morgan Alvarez · 2d</div>
 										</div>
 									</a>
@@ -320,7 +331,7 @@
 										</div>
 										<div>
 											<div class="text-truncate">Am I a good boy? The reason I ask is because someone
-																																				                                            told me that people say this to all dogs, even if they aren't good...</div>
+																																																																																																                                            told me that people say this to all dogs, even if they aren't good...</div>
 											<div class="small text-gray-500">Chicken the Dog · 2w</div>
 										</div>
 									</a>
@@ -333,30 +344,30 @@
 							<!-- Nav Item - User Information -->
 							<li class="nav-item dropdown no-arrow">
 								{% if app.user %}
-								<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<span class="mr-2 d-none d-lg-inline text-gray-600 small">{{app.user.username}}</span>
-									<img class="img-profile rounded-circle" src="{{asset('img/undraw_profile.svg')}}">
-								</a>
-								<!-- Dropdown - User Information -->
-								<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-									<a class="dropdown-item" href="{{url('app_user_show', {id:app.user.id })}}">
-										<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-										Profile
+									<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<span class="mr-2 d-none d-lg-inline text-gray-600 small">{{app.user.username}}</span>
+										<img class="img-profile rounded-circle" src="{{asset('img/undraw_profile.svg')}}">
 									</a>
-									<a class="dropdown-item" href="#">
-										<i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-										Settings
-									</a>
-									<a class="dropdown-item" href="#">
-										<i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-										Activity Log
-									</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="{{url('app_logout')}}" data-toggle="modal" data-target="#logoutModal">
-										<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-danger -400"></i>
-										Logout
-									</a>
-								</div>
+									<!-- Dropdown - User Information -->
+									<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+										<a class="dropdown-item" href="{{url('app_user_show', {id:app.user.id })}}">
+											<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+											Profile
+										</a>
+										<a class="dropdown-item" href="#">
+											<i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+											Settings
+										</a>
+										<a class="dropdown-item" href="#">
+											<i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+											Activity Log
+										</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="{{url('app_logout')}}" data-toggle="modal" data-target="#logoutModal">
+											<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-danger -400"></i>
+											Logout
+										</a>
+									</div>
 								{% endif %}
 
 							</li>
@@ -393,11 +404,36 @@
 						<!-- DataTales Example -->
 						<div class="card shadow mb-4">
 							<div class="card-header py-3">
-								<h6 class="m-0 font-weight-bold text-primary">
-									{% block cardHeader %}
-										DataTables Example
-									{% endblock %}
-								</h6>
+								<div class="row">
+									<div class="col-6">
+										<h6 class="m-0 font-weight-bold text-primary">
+											{% block cardHeader %}
+												DataTables Example
+											{% endblock %}
+										</h6>
+									</div>
+									<div class="col-6">
+										<div class="btn-group float-right ">
+											{% block lesboutons %}
+												<a title="Retour à la liste " class="btn btn-tool btn-secondary btn-sm">
+													<i class="fa fa-reply-all"></i>
+												</a>
+												<a type="button" title="Ajouter nouveau " class="btn btn-tool btn-sm btn-secondary">
+													<i class="fas fa-plus-circle"></i>
+												</a>
+												<a type="button" title="Modifier élément  " class="btn btn-tool btn-sm btn-secondary">
+													<i class="fas fa-edit"></i>
+												</a>
+												<a type="button" title="Supprimer élément" class="btn btn-tool btn-sm btn-secondary">
+													<i class="fas fa-trash"></i>
+												</a>
+											{% endblock %}
+											<a title="Imprimer la page " onclick="window.print()" class="btn btn-sm btn-tool btn-secondary no-print">
+												<i class="fas fa-print"></i>
+											</a>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div class="card-body">
 								<div class="table-responsive">
@@ -897,7 +933,8 @@
 				<footer class="sticky-footer bg-white">
 					<div class="container my-auto">
 						<div class="copyright text-center my-auto">
-							<span>Copyright &copy; Your Website 2020</span>
+							<span>Copyright &copy; WebtronBlue
+							</span>
 						</div>
 					</div>
 				</footer>
@@ -919,7 +956,7 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Voulez-vous vraiment quitter?</h5>
 						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">×</span>
 						</button>
@@ -927,7 +964,7 @@
 					<div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-						<a class="btn btn-primary" href="login.html">Logout</a>
+						<a class="btn btn-primary" href="{{url('app_logout')}}">Logout</a>
 					</div>
 				</div>
 			</div>
@@ -949,7 +986,6 @@
 
 		<!-- Page level custom scripts -->
 		<script src="{{asset('js/demo/datatables-demo.js')}}"></script>
-
 	</body>
 
 </html>

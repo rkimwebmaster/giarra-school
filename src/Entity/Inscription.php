@@ -40,6 +40,9 @@ class Inscription
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $matricule = null;
 
+    #[ORM\OneToMany(mappedBy: 'inscription', targetEntity: EtudiantAnneeAcademique::class)]
+    private Collection $etudiantAnneeAcademiques;
+
     
     #[ORM\PrePersist]
     public function creation(){
@@ -49,7 +52,7 @@ class Inscription
         $departement=$promotionAbstraite->getDepartement();
         $faculte=$departement->getFaculteSection();
 
-        $matricule= ($anneeAcademique->getDebut().$faculte->getId().$departement->getId());
+        $matricule= ($anneeAcademique->getDebut().$faculte->getId().$departement->getId().$promotionConcrete->getId());
         $this->matricule=$matricule;
         $this->etudiantAnneeAcademique->setMatricule($matricule);
         $this->etudiantAnneeAcademique->setPromotionActuelle($promotionConcrete);
@@ -58,7 +61,7 @@ class Inscription
     #[ORM\PostLoad]
     public function chargement(){
         // dd("testons");
-        $this->setMatricule($this->getMatricule().$this->getId());
+        // $this->setMatricule($this->getMatricule().$this->getId());
     }
 
 
@@ -72,6 +75,7 @@ class Inscription
         $this->reinscriptions = new ArrayCollection();
         $this->paiements = new ArrayCollection();
         $this->date=new \DateTimeImmutable();
+        $this->etudiantAnneeAcademiques = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -195,6 +199,36 @@ class Inscription
     public function setMatricule(?string $matricule): self
     {
         $this->matricule = $matricule;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EtudiantAnneeAcademique>
+     */
+    public function getEtudiantAnneeAcademiques(): Collection
+    {
+        return $this->etudiantAnneeAcademiques;
+    }
+
+    public function addEtudiantAnneeAcademique(EtudiantAnneeAcademique $etudiantAnneeAcademique): self
+    {
+        if (!$this->etudiantAnneeAcademiques->contains($etudiantAnneeAcademique)) {
+            $this->etudiantAnneeAcademiques->add($etudiantAnneeAcademique);
+            $etudiantAnneeAcademique->setInscription($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtudiantAnneeAcademique(EtudiantAnneeAcademique $etudiantAnneeAcademique): self
+    {
+        if ($this->etudiantAnneeAcademiques->removeElement($etudiantAnneeAcademique)) {
+            // set the owning side to null (unless already changed)
+            if ($etudiantAnneeAcademique->getInscription() === $this) {
+                $etudiantAnneeAcademique->setInscription(null);
+            }
+        }
 
         return $this;
     }

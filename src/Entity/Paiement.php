@@ -19,10 +19,6 @@ class Paiement
     #[ORM\JoinColumn(nullable: false)]
     private ?Frais $frais = null;
 
-    // #[ORM\ManyToOne(inversedBy: 'paiements')]
-    // #[ORM\JoinColumn(nullable: false)]
-    // private ?InscriptionReinscription $inscriptionReinscription = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $datePaiement = null;
 
