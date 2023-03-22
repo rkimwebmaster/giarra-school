@@ -15,7 +15,9 @@ class InscriptionType extends AbstractType
     {
         $builder
             ->add('date')
-            ->add('etudiantAnneeAcademique', EtudiantAnneeAcademiqueType::class)
+            ->add('premierEtudiantAnneeAcademique', EtudiantAnneeAcademiqueType::class,[
+                'mapped'=>false,
+            ])
             ->add('observation', TextareaType::class)
             ->add('paiement', PaiementType::class)
             ->add('promotionConcrete')

@@ -14,9 +14,9 @@ class PaiementType extends AbstractType
         $builder
             ->add('datePaiement')
             ->add('frais')
-            ->add('utilisateur')
-            ->add('inscription')
-            ->add('reinscription')
+            // ->add('utilisateur')
+            // ->add('inscription')
+            // ->add('reinscription')
         ;
     }
 

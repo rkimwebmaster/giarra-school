@@ -27,9 +27,6 @@ class Inscription
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $observation = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?EtudiantAnneeAcademique $etudiantAnneeAcademique = null;
 
     #[ORM\OneToMany(mappedBy: 'inscription', targetEntity: Reinscription::class)]
     private Collection $reinscriptions;
@@ -38,12 +35,24 @@ class Inscription
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $matricule = null;
 
-    #[ORM\OneToMany(mappedBy: 'inscription', targetEntity: EtudiantAnneeAcademique::class)]
+    #[ORM\OneToMany(mappedBy: 'inscription', targetEntity: EtudiantAnneeAcademique::class,cascade:["persist"])]
     private Collection $etudiantAnneeAcademiques;
 
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $utilisateur = null;
+
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?EtudiantAnneeAcademique $premierEtudiantAnneeAcademique = null;
+
+    #[ORM\OneToOne(inversedBy: 'inscription', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Paiement $paiement = null;
+
+    // #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    // #[ORM\JoinColumn(nullable: false)]
+    // private ?EtudiantAnneeAcademique $premierEtudiantAnneeAcademique = null;
 
     
     #[ORM\PrePersist]
@@ -54,26 +63,35 @@ class Inscription
         $departement=$promotionAbstraite->getDepartement();
         $faculte=$departement->getFaculteSection();
 
-        $matricule= ($anneeAcademique->getDebut().$faculte->getId().$departement->getId().$promotionConcrete->getId());
+        $matricule= $anneeAcademique->getDebut().$faculte->getId().$departement->getId().$promotionConcrete->getId();
         $this->matricule=$matricule;
-        $this->etudiantAnneeAcademique->setMatricule($matricule);
-        $this->etudiantAnneeAcademique->setPromotionActuelle($promotionConcrete);
+        $this->etudiantAnneeAcademiques[0]->setMatricule($matricule);
+
+        // $this->getPaiement()->setInscription($this);
+        
+
+        // dd($this->getPaiement());
+
+        // $this->paiement->setUtilisateur($this->getUtilisateur());
+
     }
     
     #[ORM\PostLoad]
     public function chargement(){
         // dd("testons");
         // $this->setMatricule($this->getMatricule().$this->getId());
+        $this->premierEtudiantAnneeAcademique=$this->etudiantAnneeAcademiques[0];
     }
 
 
     public function __toString()
     {
-        return $this->etudiantAnneeAcademique;
+        return $this->etudiantAnneeAcademiques[0];
     }
 
-    public function __construct()
+    public function __construct(PromotionConcrete $promotionConcrete)
     {
+        $this->promotionConcrete=$promotionConcrete;
         $this->reinscriptions = new ArrayCollection();
         $this->date=new \DateTimeImmutable();
         $this->etudiantAnneeAcademiques = new ArrayCollection();
@@ -116,18 +134,6 @@ class Inscription
     public function setObservation(?string $observation): self
     {
         $this->observation = $observation;
-
-        return $this;
-    }
-
-    public function getEtudiantAnneeAcademique(): ?EtudiantAnneeAcademique
-    {
-        return $this->etudiantAnneeAcademique;
-    }
-
-    public function setEtudiantAnneeAcademique(EtudiantAnneeAcademique $etudiantAnneeAcademique): self
-    {
-        $this->etudiantAnneeAcademique = $etudiantAnneeAcademique;
 
         return $this;
     }
@@ -204,6 +210,29 @@ class Inscription
 
         return $this;
     }
+    public function getUtilisateur(): ?User
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?User $utilisateur): self
+    {
+        $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    public function getPremierEtudiantAnneeAcademique(): ?EtudiantAnneeAcademique
+    {
+        return $this->premierEtudiantAnneeAcademique;
+    }
+
+    public function setPremierEtudiantAnneeAcademique(?EtudiantAnneeAcademique $premierEtudiantAnneeAcademique): self
+    {
+        $this->premierEtudiantAnneeAcademique = $premierEtudiantAnneeAcademique;
+
+        return $this;
+    }
 
     public function getPaiement(): ?Paiement
     {
@@ -216,4 +245,5 @@ class Inscription
 
         return $this;
     }
+
 }

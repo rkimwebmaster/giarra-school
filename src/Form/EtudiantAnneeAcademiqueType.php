@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\EtudiantAnneeAcademique;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +18,9 @@ class EtudiantAnneeAcademiqueType extends AbstractType
             // ->add('hasReussie')
             ->add('identite', IdentiteType::class)
             ->add('adresse', AdresseType::class)
-            // ->add('promotionActuelle')
+            ->add('genre', ChoiceType::class,[
+                "choices"=>["Homme"=>"Mr", "Femme"=>"Mme"],
+            ])
         ;
     }
 

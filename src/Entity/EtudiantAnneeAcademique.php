@@ -40,9 +40,15 @@ class EtudiantAnneeAcademique
     private ?PromotionConcrete $promotionActuelle = null;
 
     //from reinscription ou initialisé de la premiere inscription 
-    #[ORM\ManyToOne(inversedBy: 'etudiantAnneeAcademiques')]
+    #[ORM\ManyToOne(inversedBy: 'etudiantAnneeAcademiques',cascade:["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Inscription $inscription = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $genre = null;
+
+    #[ORM\OneToMany(mappedBy: 'etudiantAnneeAcademique', targetEntity: Paiement::class)]
+    private Collection $paiements;
    
     #[ORM\PostLoad]
     public function creation(){
@@ -58,6 +64,7 @@ class EtudiantAnneeAcademique
     {
         $this->reinscriptions = new ArrayCollection();
         $this->hasReussie=false;
+        $this->paiements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +182,48 @@ class EtudiantAnneeAcademique
     public function setInscription(?Inscription $inscription): self
     {
         $this->inscription = $inscription;
+
+        return $this;
+    }
+
+    public function getGenre(): ?string
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?string $genre): self
+    {
+        $this->genre = $genre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Paiement>
+     */
+    public function getPaiements(): Collection
+    {
+        return $this->paiements;
+    }
+
+    public function addPaiement(Paiement $paiement): self
+    {
+        if (!$this->paiements->contains($paiement)) {
+            $this->paiements->add($paiement);
+            $paiement->setEtudiantAnneeAcademique($this);
+        }
+
+        return $this;
+    }
+
+    public function removePaiement(Paiement $paiement): self
+    {
+        if ($this->paiements->removeElement($paiement)) {
+            // set the owning side to null (unless already changed)
+            if ($paiement->getEtudiantAnneeAcademique() === $this) {
+                $paiement->setEtudiantAnneeAcademique(null);
+            }
+        }
 
         return $this;
     }

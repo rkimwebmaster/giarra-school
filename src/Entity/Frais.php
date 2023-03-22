@@ -7,8 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: FraisRepository::class)]
+#[UniqueEntity(fields: ['fraisAbstrait','anneeAcademique'], message: 'Ce frais existe dejà pour cette année academique dans le système')]
 class Frais
 {
     #[ORM\Id]
@@ -45,6 +47,7 @@ class Frais
     public function __construct()
     {
         $this->paiements = new ArrayCollection();
+        $this->dateButoire=new \DateTimeImmutable('+ 10 days');
     }
 
     public function getId(): ?int

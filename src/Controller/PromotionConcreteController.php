@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\PromotionConcrete;
 use App\Form\PromotionConcreteType;
+use App\Repository\EtudiantAnneeAcademiqueRepository;
 use App\Repository\PromotionAbstraiteRepository;
 use App\Repository\PromotionConcreteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,6 +50,25 @@ class PromotionConcreteController extends AbstractController
     #[Route('/{id}', name: 'app_promotion_concrete_show', methods: ['GET'])]
     public function show(PromotionConcrete $promotionConcrete): Response
     {
+        return $this->render('promotion_concrete/show.html.twig', [
+            'promotion_concrete' => $promotionConcrete,
+        ]);
+    }
+
+    
+    #[Route('showInscriptions/{id}', name: 'app_promotion_concrete_inscription_show', methods: ['GET'])]
+    public function showInscriptions(PromotionConcrete $promotionConcrete): Response
+    {
+        return $this->render('promotion_concrete/show.html.twig', [
+            'promotion_concrete' => $promotionConcrete,
+        ]);
+    }
+
+    
+    #[Route('showReinscriptions/{id}', name: 'app_promotion_reinscription_concrete_show', methods: ['GET'])]
+    public function showReinscriptions(PromotionConcrete $promotionConcrete, EtudiantAnneeAcademiqueRepository $etudiantAnneeAcademiqueRepository): Response
+    {
+        $etudiants=$etudiantAnneeAcademiqueRepository->findBy(['promotionActuelle'=>$promotionConcrete]);
         return $this->render('promotion_concrete/show.html.twig', [
             'promotion_concrete' => $promotionConcrete,
         ]);

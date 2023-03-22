@@ -28,7 +28,7 @@ class DepartementController extends AbstractController
         
         $check=$faculteSectionRepository->findOneBy([]);
         if(!$check){
-            $this->addFlash('danger', 'Aucune faculté configuré, contactez l\'admin.');
+            $this->addFlash('danger', 'Aucune section configurée, contactez l\'admin.');
             return $this->redirectToRoute('app_faculte_section_new', [], Response::HTTP_SEE_OTHER);
         }
         $departement = new Departement();

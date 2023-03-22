@@ -8,7 +8,10 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>DatePaiement</th>
+                <th>Frais </th>
+                <th>Etudiant </th>
+                <th>Matricule </th>
+                <th>Date Paiement</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -16,7 +19,10 @@
         {% for paiement in paiements %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ paiement.datePaiement ? paiement.datePaiement|date('Y-m-d') : '' }}</td>
+                <td>{{ paiement.frais}}</td>
+                <td>{{ paiement.etudiantAnneeAcademique}}</td>
+                <td>{{ paiement.etudiantAnneeAcademique ? paiement.etudiantAnneeAcademique.matricule : ''}}</td>
+                <td>{{ paiement.datePaiement ? paiement.datePaiement|format_date('long') : '' }}</td>
                 <td>
                     <a href="{{ path('app_paiement_show', {'id': paiement.id}) }}">show</a>
                     <a href="{{ path('app_paiement_edit', {'id': paiement.id}) }}">edit</a>
@@ -24,11 +30,11 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="6">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_paiement_new') }}">Create new</a>
+    {# <a href="{{ path('app_paiement_new') }}">Create new</a> #}
 {% endblock %}

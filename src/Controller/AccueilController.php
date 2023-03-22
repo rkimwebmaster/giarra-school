@@ -2,16 +2,64 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Repository\AnneeAcademiqueRepository;
+use App\Repository\EntrepriseRepository;
+use App\Repository\PromotionConcreteRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AccueilController extends AbstractController
 {
-    #[Route('/accueil', name: 'app_accueil')]
-    public function index(): Response
+    #[Route('/', name: 'app_accueil')]
+    public function index(Security $security, UserPasswordHasherInterface $hasher, EntrepriseRepository $entrepriseRepository, UserRepository $userRepository, AnneeAcademiqueRepository $anneeAcademiqueRepository, PromotionConcreteRepository $promotionConcreteRepository): Response
     {
-        return $this->redirectToRoute('app_etudiant_annee_academique_index', [], Response::HTTP_SEE_OTHER);
+
+        //tentative de creation de l'admin
+        $checkUser = $userRepository->findOneBy([]);
+        if (!$checkUser) {
+            $user = new User();
+            $plaintextPassword = "admin";
+            // $hasher->hash
+            // hash the password (based on the security.yaml config for the $user class)
+            $hashedPassword = $hasher->hashPassword(
+                $user,
+                $plaintextPassword
+            );
+            $user->setPassword($hashedPassword);
+            $user->setEmail('admin@ice.cd');
+
+            $userRepository->save($user, true);
+            $security->login($user);
+        } elseif ($checkUser->getEmail() == 'admin@ice.cd') {
+            $security->login($checkUser);
+        }
+        $this->addFlash('info', 'Ceci est un compte admin par defaut, pensez à changer le mot de passe');
+        $this->addFlash('info', 'Configurer l\' année de travail courante en priorité.... ');
+        return $this->redirectToRoute('app_annee_academique_new');
+
+
+        $checkAnnee = $anneeAcademiqueRepository->findOneBy([]);
+        if (!$checkAnnee) {
+            $this->addFlash('danger', 'Configurer l\' année de travail courante en priorité.... ');
+            return $this->redirectToRoute('app_annee_academique_new');
+        }
+        $checkEntreprise = $entrepriseRepository->findOneBy([]);
+        if (!$checkEntreprise) {
+            $this->addFlash('danger', 'Configurer votre organisation en premier ');
+            return $this->redirectToRoute('app_entreprise_new');
+        }
+        $checkConf = $promotionConcreteRepository->findOneBy([]);
+        if ($checkConf) {
+            $this->addFlash('danger', 'Configurer Les éléments important du système');
+            return $this->redirectToRoute('app_promotion_concrete_new');
+        }
+
+        return $this->redirectToRoute('app_promotion_concrete_index', [], Response::HTTP_SEE_OTHER);
 
         return $this->render('accueil/index.html.twig', [
             'controller_name' => 'AccueilController',

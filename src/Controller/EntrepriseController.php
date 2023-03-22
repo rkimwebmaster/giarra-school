@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Entreprise;
 use App\Form\EntrepriseType;
+use App\Repository\AnneeAcademiqueRepository;
 use App\Repository\EntrepriseRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,8 +23,14 @@ class EntrepriseController extends AbstractController
     }
 
     #[Route('/new', name: 'app_entreprise_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntrepriseRepository $entrepriseRepository): Response
+    public function new(Request $request, EntrepriseRepository $entrepriseRepository, AnneeAcademiqueRepository $anneeAcademiqueRepository): Response
     {
+        
+        $check=$anneeAcademiqueRepository->findOneBy(['isEnCours'=>true]);
+        if(!$check){
+            $this->addFlash('danger', 'Aucune année d\'études configurée, contactez l\'admin.');
+            return $this->redirectToRoute('app_annee_academique_new', [], Response::HTTP_SEE_OTHER);
+        }
         $entreprise = new Entreprise();
         $form = $this->createForm(EntrepriseType::class, $entreprise);
         $form->handleRequest($request);

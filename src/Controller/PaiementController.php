@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\EtudiantAnneeAcademique;
 use App\Entity\Paiement;
 use App\Form\PaiementType;
 use App\Repository\PaiementRepository;
@@ -21,10 +22,11 @@ class PaiementController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_paiement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PaiementRepository $paiementRepository): Response
+    #[Route('/new/{id}', name: 'app_paiement_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, PaiementRepository $paiementRepository, EtudiantAnneeAcademique $etudiantAnneeAcademique): Response
     {
         $paiement = new Paiement();
+        $paiement->setEtudiantAnneeAcademique($etudiantAnneeAcademique);
         $form = $this->createForm(PaiementType::class, $paiement);
         $form->handleRequest($request);
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\EtudiantAnneeAcademique;
 use App\Entity\Inscription;
 use App\Entity\Reinscription;
 use App\Form\ReinscriptionType;
@@ -24,7 +25,7 @@ class ReinscriptionController extends AbstractController
     }
 
     #[Route('/new/{id}', name: 'app_reinscription_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, Inscription $inscription, ReinscriptionRepository $reinscriptionRepository, InscriptionRepository $inscriptionRepository): Response
+    public function new(Request $request, EtudiantAnneeAcademique $etudiantAnneeAcademique, ReinscriptionRepository $reinscriptionRepository, InscriptionRepository $inscriptionRepository): Response
     {
         $checkPromotions=$inscriptionRepository->findOneBy([]);
         if(!$checkPromotions){
@@ -32,7 +33,9 @@ class ReinscriptionController extends AbstractController
             return $this->redirectToRoute('app_inscription_new', [], Response::HTTP_SEE_OTHER);
 
         }
-        $reinscription = new Reinscription($inscription);
+        
+        $reinscription = new Reinscription($etudiantAnneeAcademique);
+        $reinscription->setUtilisateur($this->getUser());
         $form = $this->createForm(ReinscriptionType::class, $reinscription);
         $form->handleRequest($request);
 

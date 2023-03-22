@@ -49,10 +49,17 @@
 				<!-- Sidebar - Brand -->
 				<a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{url('app_accueil')}}">
 					<div class="sidebar-brand-icon rotate-n-15">
-						<i class="fas fa-laugh-wink"></i>
+						<i class="fas fa-book"></i>
 					</div>
-					<div class="sidebar-brand-text mx-3">Giarra School
-						<sup>2</sup>
+					<div class="sidebar-brand-text mx-3 rotate-n-15">
+								{% if entreprise is defined %}
+									{% if entreprise.id is not null %}
+											{{entreprise}}
+									{% endif %}
+								{% else %}
+									Giarra School Software
+								{% endif %}
+						<sup>v0.8</sup>
 					</div>
 				</a>
 
@@ -136,7 +143,7 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="{{url('app_reinscription_index')}}">
+					<a class="nav-link" href="{{url('app_paiement_index')}}">
 						<i class="fas fa-fw fa-chart-area"></i>
 						<span>Perceptions</span>
 					</a>
@@ -298,7 +305,7 @@
 										</div>
 										<div class="font-weight-bold">
 											<div class="text-truncate">Hi there! I am wondering if you can help me with a
-																																																																																																                                            problem I've been having.</div>
+																																																																																																												                                            problem I've been having.</div>
 											<div class="small text-gray-500">Emily Fowler · 58m</div>
 										</div>
 									</a>
@@ -309,7 +316,7 @@
 										</div>
 										<div>
 											<div class="text-truncate">I have the photos that you ordered last month, how
-																																																																																																                                            would you like them sent to you?</div>
+																																																																																																												                                            would you like them sent to you?</div>
 											<div class="small text-gray-500">Jae Chun · 1d</div>
 										</div>
 									</a>
@@ -320,7 +327,7 @@
 										</div>
 										<div>
 											<div class="text-truncate">Last month's report looks great, I am very happy with
-																																																																																																                                            the progress so far, keep up the good work!</div>
+																																																																																																												                                            the progress so far, keep up the good work!</div>
 											<div class="small text-gray-500">Morgan Alvarez · 2d</div>
 										</div>
 									</a>
@@ -331,7 +338,7 @@
 										</div>
 										<div>
 											<div class="text-truncate">Am I a good boy? The reason I ask is because someone
-																																																																																																                                            told me that people say this to all dogs, even if they aren't good...</div>
+																																																																																																												                                            told me that people say this to all dogs, even if they aren't good...</div>
 											<div class="small text-gray-500">Chicken the Dog · 2w</div>
 										</div>
 									</a>
@@ -383,7 +390,16 @@
 
 						<!-- Page Heading -->
 						<h1 class="h3 mb-2 text-gray-800">
-							{% block titrePage %}Giarra School Software
+							{% block titrePage %}
+
+								{% if entreprise is defined %}
+									{% if entreprise.id is defined %}{% endif %}
+									{{entreprise}}
+								{% else %}
+									Giarra School Software
+								{% endif %}
+
+
 							{% endblock %}
 						</h1>
 						{# read and display all flash messages #}

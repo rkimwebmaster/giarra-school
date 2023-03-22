@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Inscription;
+use App\Entity\PromotionConcrete;
 use App\Form\InscriptionType;
+use App\Repository\FraisRepository;
 use App\Repository\InscriptionRepository;
+use App\Repository\PaiementRepository;
 use App\Repository\PromotionConcreteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,22 +25,39 @@ class InscriptionController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_inscription_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, InscriptionRepository $inscriptionRepository, PromotionConcreteRepository $promotionConcreteRepository): Response
+    #[Route('/new/{id}', name: 'app_inscription_new', methods: ['GET', 'POST'])]
+    public function new(Request $request,PromotionConcrete $promotionConcrete, PaiementRepository $paiementRepository, InscriptionRepository $inscriptionRepository,FraisRepository $fraisRepository, PromotionConcreteRepository $promotionConcreteRepository): Response
     {
         $checkPromotions=$promotionConcreteRepository->findOneBy([]);
         if(!$checkPromotions){
             $this->addFlash('danger', 'Aucune promotion déjà configuré, contactez l\'admin.');
             return $this->redirectToRoute('app_promotion_concrete_new', [], Response::HTTP_SEE_OTHER);
-
         }
-        $inscription = new Inscription();
+
+        $checkFrais=$fraisRepository->findOneBy([]);
+        if(!$checkFrais){
+            $this->addFlash('danger', 'Aucun frais annuel déjà configuré, rassurez-vous que les frais INSCRPTION soit configuré. Contactez l\'admin.');
+            return $this->redirectToRoute('app_frais_new', [], Response::HTTP_SEE_OTHER);
+        }
+
+        $inscription = new Inscription($promotionConcrete);
         $form = $this->createForm(InscriptionType::class, $inscription);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $inscriptionRepository->save($inscription, true);
+            $inscription->setUtilisateur($this->getUser());
 
+            $etudiantPremier=$form['premierEtudiantAnneeAcademique']->getData();
+            $etudiantPremier->setPromotionActuelle($inscription->getPromotionConcrete());
+            $inscription->addEtudiantAnneeAcademique($etudiantPremier);
+            
+            $inscription->getPaiement()->setUtilisateur($this->getUser());
+            $inscription->getPaiement()->setEtudiantAnneeAcademique($etudiantPremier);
+            
+            // dd();
+            $paiementRepository->save($inscription->getPaiement(), true);
+            $inscriptionRepository->save($inscription, true);
+            // dd($inscription->getEtudiantAnneeAcademique());
             return $this->redirectToRoute('app_inscription_index', [], Response::HTTP_SEE_OTHER);
         }
 

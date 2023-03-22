@@ -48,23 +48,29 @@ class Reinscription
     #[ORM\PreUpdate]
     #[ORM\PrePersist]
     public function misAJour(){
-        $etudiant=$this->inscription->getEtudiantAnneeAcademique();
+        $etudiant=$this->inscription->getPremierEtudiantAnneeAcademique();
         $this->getEtudiantAnneeAcademique()->setPromotionActuelle($this->getPromotionConcrete());
+        $this->paiement->setUtilisateur($this->getUtilisateur());
+        $this->paiement->setEtudiantAnneeAcademique($this->getEtudiantAnneeAcademique());
     }
 
 
-    public function __construct(Inscription $inscription)
+    public function __construct(EtudiantAnneeAcademique $etudiantAnneeAcademique)
     {
-        $this->inscription=$inscription;
-        $etudiantAnneeAcademique= new EtudiantAnneeAcademique();
+        $this->inscription=$etudiantAnneeAcademique->getInscription();
+        $etudiant= new EtudiantAnneeAcademique();
 
-        $etudiantInscription=$inscription->getEtudiantAnneeAcademique();
-        $etudiantAnneeAcademique->setHasReussie($etudiantInscription->isHasReussie());
-        $etudiantAnneeAcademique->setIdentite($etudiantInscription->getIdentite());
-        $etudiantAnneeAcademique->setMatricule($etudiantInscription->getMatricule());
-        $etudiantAnneeAcademique->setTelephoneTuteur($etudiantInscription->getTelephoneTuteur());
+        $this->date=new \DateTimeImmutable();
+
+        // $etudiantInscription=$etudiantAnneeAcademique;
+        $etudiant->setHasReussie($etudiantAnneeAcademique->isHasReussie());
+        $etudiant->setIdentite($etudiantAnneeAcademique->getIdentite());
+        $etudiant->setMatricule($etudiantAnneeAcademique->getMatricule());
+        $etudiant->setTelephoneTuteur($etudiantAnneeAcademique->getTelephoneTuteur());
+        $etudiant->setInscription($etudiantAnneeAcademique->getInscription());
+        $etudiant->setGenre($etudiantAnneeAcademique->getGenre());
         
-        $this->setEtudiantAnneeAcademique($etudiantAnneeAcademique);        
+        $this->setEtudiantAnneeAcademique($etudiant);        
     }
 
     public function getId(): ?int
