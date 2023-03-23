@@ -6,6 +6,7 @@ use App\Entity\Departement;
 use App\Form\DepartementType;
 use App\Repository\DepartementRepository;
 use App\Repository\FaculteSectionRepository;
+use App\Repository\PromotionAbstraiteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +24,7 @@ class DepartementController extends AbstractController
     }
 
     #[Route('/new', name: 'app_departement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, DepartementRepository $departementRepository, FaculteSectionRepository $faculteSectionRepository): Response
+    public function new(Request $request, PromotionAbstraiteRepository $promotionAbstraiteRepository, DepartementRepository $departementRepository, FaculteSectionRepository $faculteSectionRepository): Response
     {
         
         $check=$faculteSectionRepository->findOneBy([]);
@@ -37,6 +38,15 @@ class DepartementController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $departementRepository->save($departement, true);
+            // dd("je suis");
+
+            // $checkPmA=$promotionAbstraiteRepository->findOneBy(['danger', 'Merci de configurer les promotions générales ci-dessous']);
+            // dd("je suis");
+
+            // if(!$checkPmA){
+            //     $this->addFlash('danger', 'configurer les classes Générales ');
+            //     return $this->redirectToRoute('app_promotion_promotion_abstraite_new', [], Response::HTTP_SEE_OTHER);
+            // }
 
             return $this->redirectToRoute('app_departement_index', [], Response::HTTP_SEE_OTHER);
         }

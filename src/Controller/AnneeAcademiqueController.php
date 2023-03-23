@@ -5,9 +5,12 @@ namespace App\Controller;
 use App\Entity\AnneeAcademique;
 use App\Form\AnneeAcademiqueType;
 use App\Repository\AnneeAcademiqueRepository;
+use App\Repository\FaculteSectionRepository;
+use App\Repository\PromotionConcreteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/annee/academique')]
@@ -22,7 +25,7 @@ class AnneeAcademiqueController extends AbstractController
     }
 
     #[Route('/new', name: 'app_annee_academique_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, AnneeAcademiqueRepository $anneeAcademiqueRepository): Response
+    public function new(Request $request, Session $session, FaculteSectionRepository $faculteSectionRepository, AnneeAcademiqueRepository $anneeAcademiqueRepository): Response
     {
         $anneeAcademique = new AnneeAcademique();
         $form = $this->createForm(AnneeAcademiqueType::class, $anneeAcademique);
@@ -41,6 +44,22 @@ class AnneeAcademiqueController extends AbstractController
                 }
             }
             $anneeAcademiqueRepository->save($anneeAcademique, true);
+
+            $checkAnnee = $anneeAcademiqueRepository->findOneBy(['isEnCours'=>true]);
+        if (!$checkAnnee) {
+            $this->addFlash('danger', 'Configurer l\' année de travail courante en priorité.... ');
+            return $this->redirectToRoute('app_annee_academique_new');
+        }else{
+            if(!$session->get('anneeEnCours',[])){
+                $session->set('anneeEncours',$checkAnnee);
+            }
+        }
+
+            $checkPromotion=$faculteSectionRepository->findOneBy([]);
+            if(!$checkPromotion){
+                $this->addFlash('danger', 'Merci de configurer la section ci-dessous');
+                return $this->redirectToRoute('app_promotion_concrete_new', [], Response::HTTP_SEE_OTHER);
+            }
 
             return $this->redirectToRoute('app_annee_academique_index', [], Response::HTTP_SEE_OTHER);
         }

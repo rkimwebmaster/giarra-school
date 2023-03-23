@@ -6,6 +6,7 @@ use App\Entity\Entreprise;
 use App\Form\EntrepriseType;
 use App\Repository\AnneeAcademiqueRepository;
 use App\Repository\EntrepriseRepository;
+use App\Repository\FaculteSectionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +24,7 @@ class EntrepriseController extends AbstractController
     }
 
     #[Route('/new', name: 'app_entreprise_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntrepriseRepository $entrepriseRepository, AnneeAcademiqueRepository $anneeAcademiqueRepository): Response
+    public function new(Request $request, FaculteSectionRepository $faculteSectionRepository, EntrepriseRepository $entrepriseRepository, AnneeAcademiqueRepository $anneeAcademiqueRepository): Response
     {
         
         $check=$anneeAcademiqueRepository->findOneBy(['isEnCours'=>true]);
@@ -37,6 +38,11 @@ class EntrepriseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entrepriseRepository->save($entreprise, true);
+
+            $checkSection=$faculteSectionRepository->findOneBy([]);
+            if(!$checkSection){
+                return $this->redirectToRoute('app_promotion_concrete_new', [], Response::HTTP_SEE_OTHER);
+            }
 
             return $this->redirectToRoute('app_entreprise_index', [], Response::HTTP_SEE_OTHER);
         }

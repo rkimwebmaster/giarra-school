@@ -1,44 +1,53 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des options {% endblock %}
-{% block titrePage %}Gestion des options {% endblock %}
-{% block cardHeader %} {{ block ('title')}} {% endblock %}
+{% block title %}Liste des options
+{% endblock %}
+{% block titrePage %}Gestion des options
+{% endblock %}
+{% block cardHeader %}
+	{{ block ('title')}}
+{% endblock %}
 {% block body %}
-        <table class="table table-hover table-striped  table-bordered" id="dataTable" width="100%" cellspacing="0">        <thead>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Designation</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tfoot>
-            <tr>
-                <th>#</th>
-                <th>Designation</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </tfoot>
-        <tbody>
-        {% for departement in departements %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ departement.designation }}</td>
-                <td>{{ departement.description }}</td>
-                <td>
-                    <a href="{{ path('app_departement_show', {'id': departement.id}) }}">show</a>
-                    <a href="{{ path('app_departement_edit', {'id': departement.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table class="table table-hover table-striped  table-bordered" id="dataTable" width="100%" cellspacing="0">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Département</th>
+				<th>Section</th>
+				<th>Description</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th>#</th>
+				<th>Département</th>
+				<th>Section</th>
+				<th>Description</th>
+				<th>actions</th>
+			</tr>
+		</tfoot>
+		<tbody>
+			{% for departement in departements %}
+				<tr>
+					<td>{{ loop.index }}</td>
+					<td>{{ departement.designation|upper }}</td>
+					<td>{{ departement.faculteSection|upper }}</td>
+					<td>{{ departement.description }}</td>
+					<td>
+						<div class="btn-group">
+							<a class="btn btn-primary btn-sm" href="{{ path('app_departement_show', {'id': departement.id}) }}"><span class="fa fa-search-plus" /></a>
+							<a class="btn btn-secondary btn-sm" href="{{ path('app_departement_edit', {'id': departement.id}) }}"><span class="fa fa-edit" /></a>
+						</div>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="4">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_departement_new') }}">Create new</a>
+	<a href="{{ path('app_departement_new') }}">Create new</a>
 {% endblock %}

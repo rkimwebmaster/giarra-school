@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\FaculteSection;
 use App\Form\FaculteSectionType;
+use App\Repository\DepartementRepository;
 use App\Repository\EntrepriseRepository;
 use App\Repository\FaculteSectionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +24,7 @@ class FaculteSectionController extends AbstractController
     }
 
     #[Route('/new', name: 'app_faculte_section_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, FaculteSectionRepository $faculteSectionRepository, EntrepriseRepository $entrepriseRepository): Response
+    public function new(Request $request, DepartementRepository $departementRepository, FaculteSectionRepository $faculteSectionRepository, EntrepriseRepository $entrepriseRepository): Response
     {
 
         
@@ -38,6 +39,12 @@ class FaculteSectionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $faculteSectionRepository->save($faculteSection, true);
+
+            $checkDpt=$departementRepository->findOneBy([]);
+            if(!$checkDpt){
+                $this->addFlash('danger', 'Merci de configurer les options ci-dessous');
+                return $this->redirectToRoute('app_promotion_concrete_new', [], Response::HTTP_SEE_OTHER);
+            }
 
             return $this->redirectToRoute('app_faculte_section_index', [], Response::HTTP_SEE_OTHER);
         }

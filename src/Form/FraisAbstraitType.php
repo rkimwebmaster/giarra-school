@@ -12,8 +12,10 @@ class FraisAbstraitType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('designation')
-            ->add('description')
+        ->add('designation')
+        ->add('isInscription')
+        ->add('isReinscription')
+        ->add('description')
         ;
     }
 

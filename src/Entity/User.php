@@ -38,6 +38,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Notification::class)]
     private Collection $notifications;
 
+    #[ORM\Column(length: 255, nullable:true)]
+    private ?string $rolePrincipal = null;
+
     public function __construct()
     {
         $this->notifications = new ArrayCollection();
@@ -160,6 +163,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $notification->setUtilisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRolePrincipal(): ?string
+    {
+        return $this->rolePrincipal;
+    }
+
+    public function setRolePrincipal(string $rolePrincipal): self
+    {
+        $this->rolePrincipal = $rolePrincipal;
 
         return $this;
     }

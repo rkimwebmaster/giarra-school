@@ -6,6 +6,7 @@ use App\Entity\PromotionAbstraite;
 use App\Form\PromotionAbstraiteType;
 use App\Repository\DepartementRepository;
 use App\Repository\PromotionAbstraiteRepository;
+use App\Repository\PromotionConcreteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +24,7 @@ class PromotionAbstraiteController extends AbstractController
     }
 
     #[Route('/new', name: 'app_promotion_abstraite_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PromotionAbstraiteRepository $promotionAbstraiteRepository, DepartementRepository $departementRepository): Response
+    public function new(Request $request, PromotionConcreteRepository $promotionConcreteRepository, PromotionAbstraiteRepository $promotionAbstraiteRepository, DepartementRepository $departementRepository): Response
     {
 
         $checkPromo=$departementRepository->findOneBy([]);
@@ -38,6 +39,11 @@ class PromotionAbstraiteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $promotionAbstraiteRepository->save($promotionAbstraite, true);
 
+            $checkPromo=$promotionConcreteRepository->findOneBy([]);
+            if(!$checkPromo){
+                $this->addFlash('danger', 'Mecri de configurer les promotions annuelles ci-dessous');
+                return $this->redirectToRoute('app_promotion_concrete_new', [], Response::HTTP_SEE_OTHER);
+            }
             return $this->redirectToRoute('app_promotion_abstraite_index', [], Response::HTTP_SEE_OTHER);
         }
 

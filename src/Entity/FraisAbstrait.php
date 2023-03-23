@@ -27,6 +27,12 @@ class FraisAbstrait
     #[ORM\OneToMany(mappedBy: 'fraisAbstrait', targetEntity: Frais::class)]
     private Collection $frais;
 
+    #[ORM\Column]
+    private ?bool $isInscription = null;
+
+    #[ORM\Column]
+    private ?bool $isReinscription = null;
+
     public function __toString()
     {
         return $this->designation;
@@ -92,6 +98,30 @@ class FraisAbstrait
                 $frai->setFraisAbstrait(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsInscription(): ?bool
+    {
+        return $this->isInscription;
+    }
+
+    public function setIsInscription(bool $isInscription): self
+    {
+        $this->isInscription = $isInscription;
+
+        return $this;
+    }
+
+    public function isIsReinscription(): ?bool
+    {
+        return $this->isReinscription;
+    }
+
+    public function setIsReinscription(bool $isReinscription): self
+    {
+        $this->isReinscription = $isReinscription;
 
         return $this;
     }

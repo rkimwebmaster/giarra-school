@@ -10,13 +10,15 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AccueilController extends AbstractController
 {
     #[Route('/', name: 'app_accueil')]
-    public function index(Security $security, UserPasswordHasherInterface $hasher, EntrepriseRepository $entrepriseRepository, UserRepository $userRepository, AnneeAcademiqueRepository $anneeAcademiqueRepository, PromotionConcreteRepository $promotionConcreteRepository): Response
+    public function index(Security $security, Session $session, UserPasswordHasherInterface $hasher, EntrepriseRepository $entrepriseRepository, UserRepository $userRepository, AnneeAcademiqueRepository $anneeAcademiqueRepository, PromotionConcreteRepository $promotionConcreteRepository): Response
     {
 
         //tentative de creation de l'admin
@@ -35,18 +37,20 @@ class AccueilController extends AbstractController
 
             $userRepository->save($user, true);
             $security->login($user);
+            $this->addFlash('info', 'Ceci est un compte admin par defaut, pensez à changer le mot de passe');
         } elseif ($checkUser->getEmail() == 'admin@ice.cd') {
             $security->login($checkUser);
+            $this->addFlash('info', 'Ceci est un compte admin par defaut, pensez à changer le mot de passe');
         }
-        $this->addFlash('info', 'Ceci est un compte admin par defaut, pensez à changer le mot de passe');
-        $this->addFlash('info', 'Configurer l\' année de travail courante en priorité.... ');
-        return $this->redirectToRoute('app_annee_academique_new');
 
-
-        $checkAnnee = $anneeAcademiqueRepository->findOneBy([]);
+        $checkAnnee = $anneeAcademiqueRepository->findOneBy(['isEnCours'=>true]);
         if (!$checkAnnee) {
             $this->addFlash('danger', 'Configurer l\' année de travail courante en priorité.... ');
             return $this->redirectToRoute('app_annee_academique_new');
+        }else{
+            if(!$session->get('anneeEnCours',[])){
+                $session->set('anneeEncours',$checkAnnee);
+            }
         }
         $checkEntreprise = $entrepriseRepository->findOneBy([]);
         if (!$checkEntreprise) {
@@ -54,8 +58,8 @@ class AccueilController extends AbstractController
             return $this->redirectToRoute('app_entreprise_new');
         }
         $checkConf = $promotionConcreteRepository->findOneBy([]);
-        if ($checkConf) {
-            $this->addFlash('danger', 'Configurer Les éléments important du système');
+        if (!$checkConf) {
+            $this->addFlash('danger', 'Configurer Les éléments système, notamment les classes annuelles.');
             return $this->redirectToRoute('app_promotion_concrete_new');
         }
 
